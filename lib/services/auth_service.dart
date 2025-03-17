@@ -22,5 +22,5 @@ class AuthService {
     print("Выход выполнен");
   }
 
-  User? get currentUser => _auth.currentUser; // Получение текущего пользователя
+  User? get currentUser => _auth.currentUser;
 }
