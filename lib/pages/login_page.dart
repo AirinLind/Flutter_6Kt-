@@ -9,6 +9,25 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
+
+  void _login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    try {
+      await AuthService().signInWithEmailPassword(email, password);
+
+      if (AuthService().currentUser != null) {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = "Ошибка входа: $e";
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
+            if (_errorMessage.isNotEmpty) ...[
+              SizedBox(height: 10),
+              Text(
+                _errorMessage,
+                style: TextStyle(color: Colors.red),
+              ),
+            ],
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () async {
-                String email = _emailController.text;
-                String password = _passwordController.text;
-
-                // Входим в систему
-                await AuthService().signInWithEmailPassword(email, password);
-
-                // Если вход успешен, переходим на главную страницу
-                if (AuthService().currentUser != null) {
-                  Navigator.pushReplacementNamed(context, '/home');
-                }
-              },
+              onPressed: _login,
               child: Text('Login'),
             ),
           ],
