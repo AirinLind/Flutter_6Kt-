@@ -55,7 +55,20 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
             SizedBox(height: 20),
             ElevatedButton(
+<<<<<<< HEAD
               onPressed: _login,
+=======
+              onPressed: () async {
+                String email = _emailController.text;
+                String password = _passwordController.text;
+
+                await AuthService().signInWithEmailPassword(email, password);
+
+                if (AuthService().currentUser != null) {
+                  Navigator.pushReplacementNamed(context, '/home');
+                }
+              },
+>>>>>>> 14626d3c527fcc11f6585fbe6f78d70aeed3405e
               child: Text('Login'),
             ),
           ],
