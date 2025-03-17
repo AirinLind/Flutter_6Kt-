@@ -33,10 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 String email = _emailController.text;
                 String password = _passwordController.text;
 
-                // Входим в систему
                 await AuthService().signInWithEmailPassword(email, password);
 
-                // Если вход успешен, переходим на главную страницу
                 if (AuthService().currentUser != null) {
                   Navigator.pushReplacementNamed(context, '/home');
                 }
